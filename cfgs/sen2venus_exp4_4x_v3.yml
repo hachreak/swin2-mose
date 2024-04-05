@@ -1,0 +1,7 @@
+__base__: sen2venus_exp4_4x_v2.yml
+super_res: {
+  version: 'swinfir',
+  model: {
+    resi_connection: SFB,
+  }
+}

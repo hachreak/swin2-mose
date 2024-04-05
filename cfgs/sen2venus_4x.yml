@@ -1,0 +1,33 @@
+__base__: sen2venus_base.yml
+dataset:
+  root_path: data/sen2venus
+  stats:
+    use_minmax: true
+    tensor_05m_b5b6b7b8a: {
+      mean: [1182.8475341796875, 2155.208251953125, 2507.487060546875, 2800.94140625],
+      std: [594.6590576171875, 643.8070068359375, 777.8865356445312, 829.2948608398438],
+      min: [-8687.0, -3340.0, -2245.0, -5048.0],
+      max: [20197.0, 16498.0, 16674.0, 21622.0]
+    }
+    tensor_20m_b5b6b7b8a: {
+      mean: [1180.6920166015625, 2149.5302734375, 2500.98779296875, 2794.01220703125],
+      std: [592.2827758789062, 639.0105590820312, 769.7623291015625, 819.83349609375],
+      min: [-446.0, -295.0, -340.0, -551.0],
+      max: [13375.0, 15898.0, 15551.0, 15079.0]
+    }
+  hr_name: tensor_05m_b5b6b7b8a
+  lr_name: tensor_20m_b5b6b7b8a
+  collate_fn: mods.v3.collate_fn
+  denorm: mods.v3.uncollate_fn
+  printable: mods.v3.printable
+super_res: {
+  model: {
+    upscale: 4,
+  }
+}
+visualize: {
+  input_shape: [4, 64, 64],
+}
+metrics: {
+  upscale_factor: 4,
+}

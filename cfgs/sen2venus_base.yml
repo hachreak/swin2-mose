@@ -1,0 +1,38 @@
+batch_size: 8
+dataset:
+  root_path: data/sen2venus
+  stats:
+    use_minmax: true
+  collate_fn: mods.v3.collate_fn
+  denorm: mods.v3.uncollate_fn
+  printable: mods.v3.printable
+optim: {
+  learning_rate: 0.0001,
+  model_betas: [0.9, 0.999],
+  model_eps: 0.00000001,
+  model_weight_decay: 0
+}
+super_res: {
+  version: 'v2',
+  model: {
+    depths: [6, 6, 6, 6],
+    embed_dim: 90,
+    img_range: 1.,
+    img_size: 64,
+    in_chans: 4,
+    mlp_ratio: 2,
+    num_heads: [6, 6, 6, 6],
+    resi_connection: 1conv,
+    upsampler: pixelshuffledirect,
+    window_size: 16,
+  }
+}
+train: super_res.training.train
+mean_std: mods.v3.get_mean_std
+visualize: {
+  checkpoint: chk_loader.load_state_dict_model_only,
+  model: super_res.model.build_model,
+}
+metrics: {
+  only_test_y_channel: false,
+}

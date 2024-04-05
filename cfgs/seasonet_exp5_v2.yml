@@ -1,0 +1,10 @@
+__base__: seasonet_exp5_v1.yml
+semantic_segm: {
+  conv_up: {
+    in_ch: 4,
+    middle_ch: 90,
+    out_ch: 64,
+    kernel_size: 1,
+    padding: 0,
+  }
+}

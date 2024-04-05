@@ -1,0 +1,48 @@
+batch_size: 128
+losses: {
+  with_ce_criterion: true,
+  weights: {
+    ce: 1.0,
+  }
+}
+dataset:
+  root_path: data/SeasoNet/data
+  cls: datasets.seasonet.SeasoNetDataset
+  kwargs: {
+    seasons: ['Spring'],
+    bands: ['10m_RGB', '10m_IR',],
+    grids:[1],
+  }
+  collate_fn: mods.v5.collate_fn
+  stats: {
+      mean: [444.21923828125, 715.9031372070312, 813.4345703125, 2604.867919921875],
+      std: [279.85552978515625, 385.3569641113281, 648.458984375, 796.9918212890625],
+      min: [-1025.0, -3112.0, -5122.0, -3851.0],
+      max: [14748.0, 14960.0, 16472.0, 16109.0]
+  }
+  collate_kwargs: {}
+  denorm: mods.v5.uncollate_fn
+  printable: mods.v5.printable
+optim: {
+  learning_rate: 0.0001,
+  model_betas: [0.9, 0.999],
+  model_eps: 0.00000001,
+  model_weight_decay: 0
+}
+semantic_segm: {
+  pad_before: [4, 4, 4, 4],
+  in_channels: 4,
+  type: FarSeg,
+  model: {
+    backbone: resnet50,
+  }
+}
+train: semantic_segm.training.train
+mean_std: mods.v5.get_mean_std
+metrics: {
+  eval_every: 1
+}
+visualize: {
+  model: semantic_segm.model.build_model,
+  checkpoint: chk_loader.load_state_dict_model_only,
+}

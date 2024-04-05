@@ -1,0 +1,9 @@
+__base__: sen2venus_4x.yml
+losses: {
+  with_pixel_criterion: false,
+  with_ssim_criterion: false,
+  with_cc_criterion: true,
+  weights: {
+    cc: 1.0,
+  },
+}

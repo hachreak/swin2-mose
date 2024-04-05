@@ -1,0 +1,17 @@
+__base__: sen2venus_exp2_v5.yml
+losses: {
+  weights: {
+    moe: 0.2
+  }
+}
+super_res: {
+  model: {
+    mlp_ratio: 1,
+    MoE_config: {
+      k: 2,
+      num_experts: 8,
+      with_noise: false,
+      with_smart_merger: v1,
+    }
+  }
+}

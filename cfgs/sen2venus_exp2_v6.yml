@@ -1,0 +1,8 @@
+__base__: sen2venus_exp2_v2.yml
+super_res: {
+  model: {
+    use_lepe: false,
+    use_cpb_bias: true,
+    use_rpe_bias: true,
+  }
+}

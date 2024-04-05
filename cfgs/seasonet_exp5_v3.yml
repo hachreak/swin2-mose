@@ -1,0 +1,10 @@
+__base__: seasonet_exp5_v1.yml
+semantic_segm: {
+  in_channels: 90,
+  pad_before: [0, 0, 0, 0],
+  pad_after: [4, 4, 4, 4],
+  upscaler: {
+    config: cfgs/sen2venus_exp4_2x_v5.yml,
+    chk: output/sen2venus_exp4_2x_v5/checkpoints/model-70.pt,
+  }
+}
