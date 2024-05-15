@@ -2,6 +2,10 @@
 
 Official PyTorch implementation of **Swin2-MoSE**.
 
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/swin2-mose-a-new-single-image-super/multispectral-image-super-resolution-on-1)](https://paperswithcode.com/sota/multispectral-image-super-resolution-on-1?p=swin2-mose-a-new-single-image-super)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/swin2-mose-a-new-single-image-super/multispectral-image-super-resolution-on)](https://paperswithcode.com/sota/multispectral-image-super-resolution-on?p=swin2-mose-a-new-single-image-super)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/swin2-mose-a-new-single-image-super/multispectral-image-super-resolution-on-3)](https://paperswithcode.com/sota/multispectral-image-super-resolution-on-3?p=swin2-mose-a-new-single-image-super)
+
 In this paper, we propose **Swin2-MoSE** model, an enhanced version of Swin2SR for
 Single-Image Super-Resolution for Remote Sensing.
 
