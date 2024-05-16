@@ -1,0 +1,25 @@
+__base__: ../sen2venus_4x.yml
+losses: {
+  with_pixel_criterion: false,
+  with_ssim_criterion: true,
+  with_cc_criterion: true,
+  weights: {
+    ssim: 1.0,
+    cc: 1.0,
+    moe: 0.2,
+  },
+}
+super_res: {
+  model: {
+    use_lepe: true,
+    use_cpb_bias: false,
+    use_rpe_bias: true,
+    mlp_ratio: 1,
+    MoE_config: {
+      k: 2,
+      num_experts: 8,
+      with_noise: false,
+      with_smart_merger: v1,
+    }
+  }
+}
