@@ -193,6 +193,12 @@ output2/sen2venus_exp4_2x_v5/
     └── results-70.pt
 ```
 
+### Swin2-MoSE best configuration
+
+```bash
+CONFIG_FILE=cfgs/swin2_mose/sen2venus_4x_s2m.yml
+```
+
 ### Train
 
 ```bash
