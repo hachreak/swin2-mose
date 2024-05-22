@@ -1,0 +1,34 @@
+__base__: sen2venus_4x_s2m.yml
+dataset:
+  root_path: data/sen2venus
+  stats:
+    use_minmax: true
+    tensor_05m_b2b3b4b8: {
+      mean: [444.21923828125, 715.9031372070312, 813.4345703125, 2604.867919921875],
+      std: [279.85552978515625, 385.3569641113281, 648.458984375, 796.9918212890625],
+      min: [-1025.0, -3112.0, -5122.0, -3851.0],
+      max: [14748.0, 14960.0, 16472.0, 16109.0]
+    }
+    tensor_10m_b2b3b4b8: {
+      mean: [443.78643798828125, 715.4202270507812, 813.0512084960938, 2602.813232421875],
+      std: [283.89276123046875, 389.26361083984375, 651.094970703125, 811.5682373046875],
+      min: [-848.0, -902.0, -946.0, -323.0],
+      max: [19684.0, 17982.0, 17064.0, 15958.0]
+    }
+  hr_name: tensor_05m_b2b3b4b8
+  lr_name: tensor_10m_b2b3b4b8
+  collate_fn: mods.v3.collate_fn
+  denorm: mods.v3.uncollate_fn
+  printable: mods.v3.printable
+super_res: {
+  model: {
+    upscale: 2,
+  }
+}
+metrics: {
+  upscale_factor: 2,
+}
+visualize: {
+  input_shape: [4, 128, 128],
+}
+

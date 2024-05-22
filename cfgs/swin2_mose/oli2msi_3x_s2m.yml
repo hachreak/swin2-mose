@@ -1,0 +1,18 @@
+__base__: sen2venus_4x_s2m.yml
+dataset:
+  root_path: data/oli2msi
+  collate_fn: mods.v6.collate_fn
+  denorm: mods.v6.uncollate_fn
+  printable: mods.v6.printable
+  load_dataset: datasets.oli2msi.load_dataset
+  hr_name: null
+  lr_name: null
+super_res: {
+  model: {
+    upscale: 3,
+    in_chans: 3,
+  }
+}
+metrics: {
+  upscale_factor: 3,
+}

@@ -196,6 +196,11 @@ output2/sen2venus_exp4_2x_v5/
 ### Swin2-MoSE best configuration
 
 ```bash
+# Sen2Venus 2x
+CONFIG_FILE=cfgs/swin2_mose/sen2venus_2x_s2m.yml
+# OLI2MSI 3x
+CONFIG_FILE=cfgs/swin2_mose/oli2msi_3x_s2m.yml
+# Sen2Venus 4x
 CONFIG_FILE=cfgs/swin2_mose/sen2venus_4x_s2m.yml
 ```
 
