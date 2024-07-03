@@ -9,6 +9,8 @@ def build_model(cfg):
         from .network_swin2sr import Swin2SR as SRModel
     elif version == 'swinfir':
         from .swinfir_arch import SwinFIR as SRModel
+    elif version == 'dat':
+        from .dat_arch import DAT as SRModel
 
     model = SRModel(**cfg.super_res.model).to(cfg.device)
 
