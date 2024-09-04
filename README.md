@@ -9,11 +9,11 @@ Official PyTorch implementation of **Swin2-MoSE**.
 In this paper, we propose **Swin2-MoSE** model, an enhanced version of Swin2SR for
 Single-Image Super-Resolution for Remote Sensing.
 
-<img src="images/fig1.png" width="800" height="auto" alt="Swin2-MoSE Aarchitecture">
+<img src="images/fig1.jpg" width="800" height="auto" alt="Swin2-MoSE Aarchitecture">
 
-<img src="images/fig2.png" width="800" height="auto" alt="Swin2-MoSE MoE-SM">
+<img src="images/fig2.jpg" width="800" height="auto" alt="Swin2-MoSE MoE-SM">
 
-<img src="images/fig3.png" width="800" height="auto" alt="Swin2-MoSE Positional Encoding">
+<img src="images/fig3.jpg" width="800" height="auto" alt="Swin2-MoSE Positional Encoding">
 
 Authors: Leonardo Rossi, Vittorio Bernuzzi, Tomaso Fontanini,
          Massimo Bertozzi, Andrea Prati.
