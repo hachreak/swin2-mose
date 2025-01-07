@@ -1,4 +1,4 @@
-__base__: sen2venus_exp4_v5.yml
+__base__: sen2venus_exp4_4x_v5.yml
 dataset:
   root_path: data/oli2msi
   collate_fn: mods.v6.collate_fn
@@ -15,4 +15,7 @@ super_res: {
 }
 metrics: {
   upscale_factor: 3,
+}
+visualize: {
+  input_shape: [3, 160, 160],
 }
