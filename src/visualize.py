@@ -9,15 +9,35 @@ from validation import build_eval_metrics, load_eval_method
 from utils import load_fun
 
 
-def plot_images(img, out_path, basename, fname, dpi):
+def get_min_max(img):
+    img = img.squeeze(0).view(img.shape[1], -1)
+    max_ = img.max(1)[0]
+    min_ = img.min(1)[0]
+    return min_, max_
+
+
+def get_smallest_highest(sr, hr):
+    min_, max_ = zip(*[get_min_max(r) for r in [sr, hr]])
+    min_ = torch.stack(min_, 1).min(1)[0]
+    max_ = torch.stack(max_, 1).max(1)[0]
+    return min_, max_
+
+
+def plot_images(img, out_path, basename, fname, dpi, vmin=None, vmax=None):
     # dir: out_dir / basename
     out_path = os.path.join(out_path, basename)
     if not os.path.exists(out_path):
         os.makedirs(out_path)
 
+    if vmin is None:
+        vmin = [None] * img.shape[1]
+        vmax = [None] * img.shape[1]
+
+    #  import ipdb; ipdb.set_trace()
     img = img.squeeze(0)
     for i in range(img.shape[0]):
-        plt.imshow(imgproc.tensor_to_image(img[i].detach(), False, False))
+        plt.imshow(imgproc.tensor_to_image(img[i].detach(), False, False),
+                   vmin=vmin[i], vmax=vmax[i])
         plt.axis('off')
         out_fname = os.path.join(out_path, '{}_{}.png'.format(fname, i))
         plt.savefig(out_fname, dpi=dpi)
@@ -51,6 +71,14 @@ def main(cfg):
     out_path = os.path.join(cfg.output, 'images_{}'.format(cfg.epoch))
     if not os.path.exists(out_path):
         os.makedirs(out_path)
+
+    # Create a folder of super-resolution experiment results
+    img_path = os.path.join(cfg.output, 'images_{}'.format(cfg.epoch))
+    if not os.path.exists(img_path):
+        os.makedirs(img_path)
+    fft_path = os.path.join(cfg.output, 'fft_{}'.format(cfg.epoch))
+    if not os.path.exists(fft_path):
+        os.makedirs(fft_path)
 
     # move to device
     model.to(cfg.device)
@@ -95,7 +123,10 @@ def main(cfg):
             # normalize [0, 1] removing outliers to have a printable version
             hr, sr, lr = printable(hr_dn, sr_dn, lr_dn)
             # plot images
-            plot_images(lr, out_path, 'lr', index, cfg.dpi)
-            plot_images(hr, out_path, 'hr', index, cfg.dpi)
-            plot_images(sr, out_path, 'sr', index, cfg.dpi)
-            plot_images((hr - sr).abs(), out_path, 'delta', index, cfg.dpi)
+            plot_images(lr, img_path, 'lr', index, cfg.dpi)
+            vmm = get_smallest_highest(sr, hr)
+            #  import ipdb; ipdb.set_trace()
+            plot_images(hr, img_path, 'hr', index, cfg.dpi, *vmm)
+            plot_images(sr, img_path, 'sr', index, cfg.dpi, *vmm)
+            delta = (hr - sr).abs()
+            plot_images(delta, img_path, 'delta', index, cfg.dpi, *vmm)
