@@ -16,7 +16,7 @@ def validate(g_model, val_dloader, metrics, epoch, writer, mode, cfg):
     # Put the adversarial network model in validation mode
     g_model.eval()
 
-    avg_metrics = build_avg_metrics()
+    avg_metrics = build_avg_metrics(cfg)
 
     use_minmax = cfg.dataset.get('stats', {}).get('use_minmax', False)
     dset = cfg.dataset
@@ -34,7 +34,9 @@ def validate(g_model, val_dloader, metrics, epoch, writer, mode, cfg):
     with torch.no_grad():
         for j, batch in tqdm(
                 enumerate(val_dloader), total=len(val_dloader),
-                desc='Val Epoch: %d / %d' % (epoch + 1, cfg.epochs)):
+                desc='Val Epoch: %d / %d' % (epoch + 1, cfg.epochs),
+                bar_format="{l_bar}{bar}| {n_fmt}/{total_fmt} "
+                       "[{elapsed}<{remaining}, {rate_noinv_fmt}]"):
             hr = batch["hr"].to(device=cfg.device, non_blocking=True)
             lr = batch["lr"].to(device=cfg.device, non_blocking=True)
 
@@ -83,14 +85,21 @@ def build_eval_metrics(cfg):
     return metrics
 
 
-def build_avg_metrics():
+def build_avg_metrics(cfg):
+    save_values = cfg.metrics_values
     return OrderedDict([
-        ('psnr_model', AverageMeter("PIQ_PSNR", ":4.4f")),
-        ('ssim_model', AverageMeter("PIQ_SSIM", ":4.4f")),
-        ('cc_model', AverageMeter("CC", ":4.4f")),
-        ('rmse_model', AverageMeter("PIQ_RMSE", ":4.4f")),
-        ('sam_model', AverageMeter("SAM", ":4.4f")),
-        ('ergas_model', AverageMeter("ERGAS", ":4.4f")),
+        ('psnr_model', AverageMeter("PIQ_PSNR", ":4.4f",
+                                    save_values=save_values)),
+        ('ssim_model', AverageMeter("PIQ_SSIM", ":4.4f",
+                                    save_values=save_values)),
+        ('cc_model', AverageMeter("CC", ":4.4f",
+                                  save_values=save_values)),
+        ('rmse_model', AverageMeter("PIQ_RMSE", ":4.4f",
+                                    save_values=save_values)),
+        ('sam_model', AverageMeter("SAM", ":4.4f",
+                                   save_values=save_values)),
+        ('ergas_model', AverageMeter("ERGAS", ":4.4f",
+                                     save_values=save_values)),
     ])
 
 
@@ -114,12 +123,18 @@ def get_result_filename(cfg):
 def do_save_metrics(metrics, cfg):
     filename = get_result_filename(cfg)
     print('save results {}'.format(filename))
-    torch.save({
+    content = {
         'epoch': cfg.epoch,
         'metrics': OrderedDict([
             (k, v.avg) for k, v in metrics.items()
         ])
-    }, filename)
+    }
+    if hasattr(metrics['psnr_model'], 'vals'):
+        content['values'] = OrderedDict([
+            (k, metrics['psnr_model'].values)
+            for k, v in metrics.items()
+        ])
+    torch.save(content, filename)
 
 
 def load_metrics(cfg):
@@ -129,9 +144,12 @@ def load_metrics(cfg):
     # check if epoch corresponds
     assert result['epoch'] == cfg.epoch
     # build AVG objects
-    avg_metrics = build_avg_metrics()
+    avg_metrics = build_avg_metrics(cfg)
     for k, v in result['metrics'].items():
         avg_metrics[k].avg = v
+    if 'values' in result:
+        for k, v in result['values'].items():
+            avg_metrics[k].values = v
     return avg_metrics
 
 
