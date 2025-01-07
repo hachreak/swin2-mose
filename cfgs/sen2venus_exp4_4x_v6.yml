@@ -1,4 +1,1 @@
-__base__: sen2venus_exp4_4x_v2.yml
-super_res: {
-  version: 'dat'
-}
+__base__: sen2venus_exp3_v3.yml
