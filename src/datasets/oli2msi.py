@@ -86,6 +86,7 @@ def load_dataset(cfg, only_test=False, concat_datasets=False):
     if not only_test:
         train_dset = OLI2MSI(cfg, is_training=True)
 
+        # drop last because last batch is 1 and batchnorm fails
         train_dloader = DataLoader(
             train_dset,
             batch_size=cfg.batch_size,
@@ -93,7 +94,7 @@ def load_dataset(cfg, only_test=False, concat_datasets=False):
             shuffle=True,
             num_workers=cfg.num_workers,
             pin_memory=True,
-            drop_last=False,
+            drop_last=True,
             persistent_workers=persistent_workers,
             collate_fn=collate_fn(cfg),
         )
