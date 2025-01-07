@@ -723,26 +723,26 @@ class DAT(nn.Module):
         resi_connection: The convolutional block before residual connection. '1conv'/'3conv'
     """
     def __init__(self,
-                img_size=64,
-                in_chans=3,
-                embed_dim=180,
-                split_size=[2,4],
-                depth=[2,2,2,2],
-                num_heads=[2,2,2,2],
-                expansion_factor=4.,
-                qkv_bias=True,
-                qk_scale=None,
-                drop_rate=0.,
-                attn_drop_rate=0.,
-                drop_path_rate=0.1,
-                act_layer=nn.GELU,
-                norm_layer=nn.LayerNorm,
-                use_chk=False,
-                upscale=2,
-                img_range=1.,
-                resi_connection='1conv',
-                upsampler='pixelshuffle',
-                **kwargs):
+                 img_size=64,
+                 in_chans=3,
+                 embed_dim=180,
+                 split_size=[2, 4],
+                 depths=[2, 2, 2, 2],
+                 num_heads=[2, 2, 2, 2],
+                 expansion_factor=4.,
+                 qkv_bias=True,
+                 qk_scale=None,
+                 drop_rate=0.,
+                 attn_drop_rate=0.,
+                 drop_path_rate=0.1,
+                 act_layer=nn.GELU,
+                 norm_layer=nn.LayerNorm,
+                 use_chk=False,
+                 upscale=2,
+                 img_range=1.,
+                 resi_connection='1conv',
+                 upsampler='pixelshuffle',
+                 **kwargs):
         super().__init__()
 
         num_in_ch = in_chans
@@ -761,7 +761,7 @@ class DAT(nn.Module):
         self.conv_first = nn.Conv2d(num_in_ch, embed_dim, 3, 1, 1)
 
         # ------------------------- 2, Deep Feature Extraction ------------------------- #
-        self.num_layers = len(depth)
+        self.num_layers = len(depths)
         self.use_chk = use_chk
         self.num_features = self.embed_dim = embed_dim  # num_features for consistency with other models
         heads=num_heads
@@ -772,7 +772,7 @@ class DAT(nn.Module):
         )
 
         curr_dim = embed_dim
-        dpr = [x.item() for x in torch.linspace(0, drop_path_rate, np.sum(depth))]  # stochastic depth decay rule
+        dpr = [x.item() for x in torch.linspace(0, drop_path_rate, np.sum(depths))]  # stochastic depths decay rule
 
         self.layers = nn.ModuleList()
         for i in range(self.num_layers):
@@ -786,10 +786,10 @@ class DAT(nn.Module):
                 qk_scale=qk_scale,
                 drop=drop_rate,
                 attn_drop=attn_drop_rate,
-                drop_paths=dpr[sum(depth[:i]):sum(depth[:i + 1])],
+                drop_paths=dpr[sum(depths[:i]):sum(depths[:i + 1])],
                 act_layer=act_layer,
                 norm_layer=norm_layer,
-                depth=depth[i],
+                depth=depths[i],
                 use_chk=use_chk,
                 resi_connection=resi_connection,
                 rg_idx=i)
@@ -872,7 +872,7 @@ if __name__ == '__main__':
         in_chans=3,
         img_size=64,
         img_range=1.,
-        depth=[6,6,6,6,6,6],
+        depths=[6,6,6,6,6,6],
         embed_dim=180,
         num_heads=[6,6,6,6,6,6],
         expansion_factor=2,
