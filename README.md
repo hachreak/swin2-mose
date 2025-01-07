@@ -241,6 +241,13 @@ python src/main_ssegm.py --phase mean_std --config $CONFIG_FILE
 python src/main.py --phase avg_time --config $CONFIG_FILE --repeat_times 1000 --warm_times 20 --batch_size 8
 ```
 
+### Count total and active number of weights and flops
+
+```
+python src/main.py --phase weights --config $CONFIG_FILE
+python src/main.py --phase flops --config $CONFIG_FILE
+```
+
 ## Results
 
 ### Table 1
@@ -280,8 +287,13 @@ Ablation study on positional encoding.
 | # | Arch    | SM | APC    | SPC    | SSIM      | PSNR       | (s)     |      |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | 1 | MLP     |    | 32’670 |  32’670 | 0.9847 | 45.8539 | 0.194 | [conf](cfgs/sen2venus_exp3_v1.yml) |
-| 2 | MoE 8/2 |    | 32’760 | 132’480 | 0.9845 | 45.8647 | 0.202 | [conf](cfgs/sen2venus_exp3_v2.yml) |
-| 3 | MoE 8/2 | x  | 32’779 | 132’499 | 0.9849 | 45.9272 | 0.212 | [conf](cfgs/sen2venus_exp3_v3.yml) |
+| 2 | MoE  8/2 |    | 33’480 | 131’760 | 0.9845 | 45.8647 | 0.223 | [conf](cfgs/sen2venus_exp3_v2.yml) |
+| 3 | MoE  8/2 | x  | 33'499 | 131’779 | 0.9849 | 45.9272 | 0.229 | [conf](cfgs/sen2venus_exp3_v3.yml) |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 4 | MoE  8/1 | x  | 34'120 | 262’810 | 0.9837 | 45.4847 | 0.230 | [conf](cfgs/sen2venus_exp3_v4.yml) |
+| 5 | MoE  6/2 | x  | 33'319 |  98’839 | 0.9844 | 45.8328 | 0.230 | [conf](cfgs/sen2venus_exp3_v5.yml) |
+| 6 | MoE  8/2 | x  | 33'499 | 131’779 | 0.9849 | 45.9272 | 0.229 | [conf](cfgs/sen2venus_exp3_v3.yml) |
+| 7 | MoE 10/2 | x  | 33'679 | 164’719 | 0.9846 | 45.8913 | 0.230 | [conf](cfgs/sen2venus_exp3_v7.yml) |
 
 ### Table 4
 

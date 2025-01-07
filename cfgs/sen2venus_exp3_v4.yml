@@ -1,0 +1,10 @@
+__base__: sen2venus_exp3_v3.yml
+super_res: {
+  model: {
+    mlp_ratio: 2,
+    MoE_config: {
+      k: 1,
+      with_noise: true,
+    }
+  }
+}
