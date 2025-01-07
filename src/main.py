@@ -2,11 +2,12 @@ import argparse
 import torch
 
 from config import parse_config
-from utils import load_fun, set_deterministic
+from utils import load_fun, set_deterministic, print_weights
 from visualize import main as vis_main
 from validation import main as val_main, print_metrics as val_print_metrics, \
         load_metrics
-from debug import measure_avg_time
+from debug import measure_avg_time, compute_flops
+from super_res.model import build_model
 
 
 def parse_configs():
@@ -18,7 +19,8 @@ def parse_configs():
     parser.add_argument('--phase',
                         default='train',
                         choices=['train', 'test', 'mean_std', 'vis',
-                                 'plot_data', 'avg_time'],
+                                 'plot_data', 'avg_time', 'weights',
+                                 'flops'],
                         help='Training or testing or play phase.')
     parser.add_argument('--seed',
                         type=int,
@@ -75,6 +77,10 @@ def parse_configs():
                         type=int,
                         default=2400,
                         help="dpi in png output file.")
+    parser.add_argument('--metrics_values',
+                        action="store_true",
+                        default=False,
+                        help="Save metrics values.")
 
     args = parser.parse_args()
     return parse_config(args)
@@ -103,9 +109,18 @@ def main(cfg):
         _, _, concat_dloader = load_dataset_fun(cfg, concat_datasets=True)
         fun = load_fun(cfg.get(cfg.phase))
         fun(concat_dloader, cfg)
+    elif cfg.phase == 'weights':
+        model = build_model(cfg)
+        print_weights(model, cfg)
     elif cfg.phase == 'vis':
         cfg['batch_size'] = 1
         vis_main(cfg)
+    elif cfg.phase == 'flops':
+        flops, macs, params, shape = compute_flops(cfg)
+        print('flops', flops)
+        print('macs', macs)
+        print('params', params)
+        print('shape', shape)
     elif cfg.phase == 'test':
         try:
             if cfg.eval_method is not None:

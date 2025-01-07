@@ -5,6 +5,23 @@ from time import time
 from utils import load_fun
 
 
+def compute_flops(cfg):
+    from calflops import calculate_flops
+
+    vis = cfg.get('visualize', {})
+    model = load_fun(vis.get('model'))(cfg)
+    shape = tuple([cfg.batch_size, ] + vis.input_shape)
+
+    with torch.no_grad():
+        flops, macs, params = calculate_flops(
+            model=model,
+            input_shape=shape,
+            output_as_string=True,
+            output_precision=4)
+
+    return flops, macs, params, shape
+
+
 def log_losses(losses, phase, writer, index):
     # Write the data during training to the training log file
     for k, v in losses.items():
