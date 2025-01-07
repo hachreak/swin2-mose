@@ -255,8 +255,8 @@ python src/main.py --phase flops --config $CONFIG_FILE
 Ablation study on loss usage.
 
 | # | Losses   ||| Performace            ||| Conf |
-| # | NCC | SSIM | MSE | NCC    | SSIM   | PSNR    | |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| # | **NCC** | **SSIM** | **MSE** | **NCC**    | **SSIM**   | **PSNR**    | |
 | 1 | x   |      |     | 0.9550 | 0.5804 | 16.4503 | [conf](cfgs/sen2venus_exp1_v1.yml) |
 | 2 |     | x    |     | 0.9565 | 0.9847 | 45.5427 | [conf](cfgs/sen2venus_exp1_v2.yml) |
 | 3 |     |      | x   | 0.9546 | 0.9828 | 45.4759 | [conf](cfgs/sen2venus_exp1_v3.yml) |
@@ -269,8 +269,8 @@ Ablation study on loss usage.
 Ablation study on positional encoding.
 
 | # | Positional Encoding ||| Performace            || Conf |
-| # | RPE | log CPB | LePE | SSIM   | PSNR    | |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| # | **RPE** | **log CPB** | **LePE** | **SSIM**   | **PSNR**    | |
 | 1 | x   |         |      | 0.9841 | 45.5855 | [conf](cfgs/sen2venus_exp2_v1.yml) |
 | 2 |     | x       |      | 0.9841 | 45.6986 | [conf](cfgs/sen2venus_exp2_v2.yml) |
 | 3 |     |         | x    | 0.9843 | 45.7278 | [conf](cfgs/sen2venus_exp2_v3.yml) |
@@ -283,9 +283,9 @@ Ablation study on positional encoding.
 
 Ablation study on positional encoding.
 
-` | # |         |    | MLP #Params    || Performace            || Latency | Conf |`
-| # | Arch    | SM | APC    | SPC    | SSIM      | PSNR       | (s)     |      |
+| # |         |    | MLP #Params    || Performace            || Latency | Conf |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| # | **Arch**    | **SM** | **APC**    | **SPC**     | **SSIM**   | **PSNR**    | (s)     |      |
 | 1 | MLP     |    | 32’670 |  32’670 | 0.9847 | 45.8539 | 0.194 | [conf](cfgs/sen2venus_exp3_v1.yml) |
 | 2 | MoE  8/2 |    | 33’480 | 131’760 | 0.9845 | 45.8647 | 0.223 | [conf](cfgs/sen2venus_exp3_v2.yml) |
 | 3 | MoE  8/2 | x  | 33'499 | 131’779 | 0.9849 | 45.9272 | 0.229 | [conf](cfgs/sen2venus_exp3_v3.yml) |
@@ -300,8 +300,8 @@ Ablation study on positional encoding.
 Quantitative comparison with SOTA models on Sen2Veµs and OLI2MS datasets.
 
 | # | Model             |  Sen2Venus 2x   || OLI2MSI 3x      || Sen2Venus 4x    || Conf |||
-| # |                   | SSIM   | PSNR    | SSIM   | PSNR    | SSIM   | PSNR    | 2x | 3x | 4x |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| # |                   | **SSIM**   | **PSNR**    | **SSIM**   | **PSNR**    | **SSIM**   | **PSNR**    | **2x** | **3x** | **4x** |
 | 1 | Bicubic           | 0.9883 | 45.5588 | 0.9768 | 42.1835 | 0.9674 | 42.0499 |    |    |    |
 | 2 | [SwinIR](https://openaccess.thecvf.com/content/ICCV2021W/AIM/html/Liang_SwinIR_Image_Restoration_Using_Swin_Transformer_ICCVW_2021_paper.html)            | 0.9938 | 48.7064 | 0.9860 | 43.7482 | 0.9825 | 45.3460 | [conf](cfgs/sen2venus_exp4_2x_v2.yml) | [conf](cfgs/oli2msi_exp4_3x_v2.yml) | [conf](cfgs/sen2venus_exp4_4x_v2.yml) |
 | 3 | [Swinfir](https://arxiv.org/abs/2208.11247)           | 0.9940 | 48.8532 | 0.9863 | 44.4829 | 0.9830 | 45.5500 | [conf](cfgs/sen2venus_exp4_2x_v3.yml) | [conf](cfgs/oli2msi_exp4_3x_v3.yml) | [conf](cfgs/sen2venus_exp4_4x_v3.yml) |
