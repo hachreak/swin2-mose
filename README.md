@@ -52,6 +52,17 @@ $ conda env create -n swin2_mose_env --file environment.yml
 $ conda activate swin2_mose_env
 ```
 
+### Quick start
+
+If you are interested into the model, you can look our demo code:
+
+###
+```bash
+python swin2_mose_model/run.py
+```
+
+Inside `swin2_mose_model/model.py` you can find the entire model ready to use!
+
 ### Prepare Sen2Venus dataset
 
 1) After you downloaded the files from
