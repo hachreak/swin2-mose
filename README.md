@@ -334,10 +334,14 @@ This research benefits from the HPC (High Performance Computing) facility of the
 If you find our work useful in your research, please cite:
 
 ```
-@article{rossi2024swin2,
-  title={Swin2-MoSE: A New Single Image Super-Resolution Model for Remote Sensing},
+@article{rossi2025swin2,
+  title={Swin2-MoSE: A new single image supersolution model for remote sensing},
   author={Rossi, Leonardo and Bernuzzi, Vittorio and Fontanini, Tomaso and Bertozzi, Massimo and Prati, Andrea},
-  journal={arXiv preprint arXiv:2404.18924},
-  year={2024}
+  journal={IET Image Processing},
+  volume={19},
+  number={1},
+  pages={e13303},
+  year={2025},
+  publisher={Wiley Online Library}
 }
 ```
