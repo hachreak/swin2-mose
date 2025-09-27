@@ -1,7 +1,7 @@
 import yaml
-import os
 import torch
 import pprint
+import argparse
 
 from model import Swin2MoSE
 
@@ -48,21 +48,22 @@ def run_model(model, lr, stats):
     return sr
 
 
-path_cfg = 'config-70.yml'
-#  path_weights = 'model-70.pt'
+parser = argparse.ArgumentParser()
+parser.add_argument('--cfg', default='config-70.yml')
+parser.add_argument('--weights', default='model-70.pt')
 
-base_path = os.path.dirname(__file__)
+opt = parser.parse_args()
 
 # load config
-with open(os.path.join(base_path, path_cfg), 'r') as f:
+with open(opt.cfg, 'r') as f:
     cfg = yaml.safe_load(f)
 
 # build model
 model = Swin2MoSE(**cfg['super_res']['model'])
 
 # load checkpoint
-#  checkpoint = torch.load(os.path.join(base_path, path_weights))
-#  model.load_state_dict(checkpoint['model_state_dict'])
+checkpoint = torch.load(opt.weights)
+model.load_state_dict(checkpoint['model_state_dict'])
 
 pprint.pprint(cfg)
 print(model)
